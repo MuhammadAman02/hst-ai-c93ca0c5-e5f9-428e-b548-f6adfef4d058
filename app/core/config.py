@@ -1,16 +1,23 @@
 from pydantic_settings import BaseSettings
+from pydantic import Field
 import os
-from typing import Optional
 
 class Settings(BaseSettings):
-    APP_NAME: str = "My Enterprise App"
-    APP_VERSION: str = "1.0.0"  # Semantic versioning
-    APP_ENV: str = os.getenv("APP_ENV", "development")
-    DEBUG: bool = False
+    """Application settings with environment variable support."""
+    
+    # Application settings
+    APP_NAME: str = Field(default="LinkedIn Clone")
+    APP_VERSION: str = Field(default="1.0.0")
+    APP_ENV: str = Field(default="development")
+    DEBUG: bool = Field(default=False)
+    
+    # Server settings
+    HOST: str = Field(default="0.0.0.0")
+    PORT: int = Field(default=8000)
     
     class Config:
         env_file = ".env"
-        env_file_encoding = "utf-8"
-        extra = "ignore"  # Ignore extra fields in environment variables
+        case_sensitive = True
 
+# Create settings instance
 settings = Settings()
